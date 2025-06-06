@@ -1,0 +1,39 @@
+.map-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.modern-map {
+    width: 100%;
+    height: 100%;
+    filter: grayscale(10%) brightness(0.97);
+}
+
+.price-pill {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 48px;
+    height: 28px;
+    background: #9f0712; /* Tailwind red-500 */
+    color: white;
+    font-weight: 500;
+    font-size: 0.8rem;
+    border-radius: 9999px; /* pill shape */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.40);
+    padding: 0 16px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.leaflet-popup-content-wrapper {
+    border: none !important;
+}
