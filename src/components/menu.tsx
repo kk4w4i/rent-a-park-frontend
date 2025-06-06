@@ -45,7 +45,7 @@ export function Menu({
               <CollapsibleContent>
                 <SidebarGroupContent>
                   <SidebarMenu>
-                    {menus.items.map((item, index) => (
+                    {menus.items.map((item) => (
                       <SidebarMenuItem key={item}>
                         <SidebarMenuButton>
                           {item}

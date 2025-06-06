@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Star, MapPin, Share, Heart, Calendar } from "lucide-react";
+import { MapPin, Share, Heart, Calendar } from "lucide-react";
 
 // For date/time pickers, you may want to use a library like react-datepicker or similar.
 // Here, we'll use simple HTML <input type="datetime-local"> for demonstration.

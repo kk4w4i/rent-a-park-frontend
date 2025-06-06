@@ -6,7 +6,6 @@ import { SearchProvider, useSearchContext } from '@/context/SearchContext';
 import Filter from '@/customComponents/Filter';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '@/context/AuthContext';
-import { Avatar } from '@/components/ui/avatar';
 
 export default function Home() {
   const [mapState, setMapState] = useState({
