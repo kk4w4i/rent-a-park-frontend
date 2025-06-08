@@ -11,7 +11,7 @@ const BASE_API_URL = 'http://localhost:8080/lb-service/api/v1';
 type ProfileContextType = {
   profileUser: ProfileUser | null;
   providerListings: ProviderListing[];
-  providerBookings: Booking[];
+  bookings: Booking[];
   switchRole: () => void;
   getListings: () => Promise<void>;
   getBookings: () => Promise<void>;
@@ -20,7 +20,7 @@ type ProfileContextType = {
 export const ProfileContext = createContext<ProfileContextType>({
   profileUser: null,
   providerListings: [],
-  providerBookings: [],
+  bookings: [],
   switchRole: () => {},
   getListings: async () => {
     throw new Error('getListings function not implemented');
@@ -38,7 +38,7 @@ export const ProfileProvider = ({ children }: { children: React.ReactNode }) => 
     role: 'customer',
   });
   const [providerListings, setProviderListings] = useState<ProviderListing[]>([]);
-  const [providerBookings, setProviderBookings] = useState<Booking[]>([]);
+  const [bookings, setBookings] = useState<Booking[]>([]);
 
   const switchRole = () => {
     setProfileUser(prev =>
@@ -50,24 +50,30 @@ export const ProfileProvider = ({ children }: { children: React.ReactNode }) => 
 
   const getListings = async () => {
     if (profileUser.role === 'provider') {
-        const response = await fetch(`${BASE_API_URL}/listings?provider_id=${profileUser.user_id}`);
+        const response = await fetch(`${BASE_API_URL}/listings/provider`, {
+          method: 'GET',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+        });
         const data = await response.json();
         if (response.ok) {
-            setProviderListings(data);
+          setProviderListings(data);
         }
         throw new Error('Failed to fetch listings');
     }
   }
 
   const getBookings = async () => {
-    if (profileUser.role === 'provider') {
-        const response = await fetch(`${BASE_API_URL}/bookings?provider_id=${profileUser.user_id}`);
-        const data = await response.json();
-        if (response.ok) {
-            setProviderBookings(data);
-        }
-        throw new Error('Failed to fetch bookings');
+    const response = await fetch(`${BASE_API_URL}/bookings/user`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    const data = await response.json();
+    if (response.ok) {
+      setBookings(data);
     }
+    throw new Error('Failed to fetch bookings');
   }
 
   useEffect(() => {
@@ -80,7 +86,7 @@ export const ProfileProvider = ({ children }: { children: React.ReactNode }) => 
   }, [user]);
 
   return (
-    <ProfileContext.Provider value={{ profileUser, providerListings, providerBookings, switchRole, getListings, getBookings }}>
+    <ProfileContext.Provider value={{ profileUser, providerListings, bookings, switchRole, getListings, getBookings }}>
       {children}
     </ProfileContext.Provider>
   );

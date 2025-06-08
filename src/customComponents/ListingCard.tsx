@@ -26,20 +26,27 @@ export default function ListingCard({ listing }: { listing: Listing }) {
         <Card className="py-2 gap-3 w-[400px] cursor-pointer drop-shadow-2xl" onClick={() => navigate(`/listing/${listing.listing_id}`)}>
             <CardContent className="px-3 pt-3 pb-0">
                 <div>
-                <AspectRatio className="rounded-lg" ratio={12 / 6}></AspectRatio>
-                <div className="flex justify-between items-center">
-                    <section className="flex flex-row justify-center items-center gap-2 text-neutral-400">
-                        <div>
-                            Price ${listing.rate}/15min
+                    <AspectRatio className="rounded-lg" ratio={12 / 6}>
+                        <img
+                            src={listing.image}
+                            alt={listing.title}
+                            className="rounded-lg w-full h-full object-cover"
+                    />
+                    </AspectRatio>
+
+                    <div className="flex justify-between items-center">
+                        <section className="flex flex-row justify-center items-center gap-2 text-neutral-400">
+                            <div>
+                                Price ${listing.rate}/15min
+                            </div>
+                            <span className="text-[#E4A963] bg-[#FFE4BC] rounded-full px-2 py-1 text-[0.8rem] font-medium">
+                                {listing.type}
+                            </span>
+                        </section>
+                        <div className="text-[0.8rem] text-neutral-500 font-medium">
+                            Uploaded: {formatDate(listing.updated_at)}
                         </div>
-                        <span className="text-[#E4A963] bg-[#FFE4BC] rounded-full px-2 py-1 text-[0.8rem] font-medium">
-                            {listing.type}
-                        </span>
-                    </section>
-                    <div className="text-[0.8rem] text-neutral-500 font-medium">
-                        Uploaded: {formatDate(listing.updated_at)}
                     </div>
-                </div>
                 </div>
             </CardContent>
             <CardFooter className="flex-col justify-end items-start gap-2 px-3 pb-3 pt-0">

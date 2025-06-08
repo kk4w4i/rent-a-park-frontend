@@ -12,7 +12,10 @@ type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
   profileUser: ProfileUser
 }
 
-export function AppSidebar({ profileUser, ...props }: AppSidebarProps) {
+export function AppSidebar({ profileUser, selectedMenu, onSelectMenu, ...props }: AppSidebarProps & {
+  selectedMenu: string | null;
+  onSelectMenu: (item: string) => void;
+}) {
   console.log(profileUser.role)
   const user =  {
         firstname: profileUser.firstname,
@@ -27,17 +30,17 @@ export function AppSidebar({ profileUser, ...props }: AppSidebarProps) {
       ? [
           {
             name: "My Bookings",
-            items: ["Reserved", "Requested", "Denied"],
+            items: ["Booked", "Requested", "Denied"],
           },
           {
             name: "My Listings",
-            items: ["Listed", "Closed"],
+            items: ["Listed", "Pending", "Closed"],
           },
         ]
       : [
           {
             name: "My Bookings",
-            items: ["Reserved", "Requested", "Denied"],
+            items: ["Booked", "Requested", "Denied"],
           },
         ]
 
@@ -48,7 +51,7 @@ export function AppSidebar({ profileUser, ...props }: AppSidebarProps) {
       </SidebarHeader>
       <SidebarContent>
         <SidebarSeparator className="mx-0" />
-        <Menu menus={menus} />
+        <Menu menus={menus} selected={selectedMenu} onSelect={onSelectMenu} />
       </SidebarContent>
     </Sidebar>
   )

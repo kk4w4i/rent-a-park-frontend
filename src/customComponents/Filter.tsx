@@ -52,8 +52,8 @@ export default function Filter({ mapState }: FilterProps) {
   const { filters, updateFilters } = useSearchContext();
   const [localFilters, setLocalFilters] = useState<SearchFilters>({
     ...filters,
-    lon: mapState?.center[0] ?? 0,
-    lat: mapState?.center[1] ?? 0,
+    lon: mapState?.center[1] ?? 0,
+    lat: mapState?.center[0] ?? 0,
     radius: mapState ? zoomToRadiusKm(mapState.zoom) : zoomToRadiusKm(13),
   });
 
@@ -62,8 +62,8 @@ export default function Filter({ mapState }: FilterProps) {
     if (mapState) {
       setLocalFilters(prev => ({
         ...prev,
-        lon: mapState.center[0],
-        lat: mapState.center[1],
+        lon: mapState.center[1],
+        lat: mapState.center[0],
         radius: zoomToRadiusKm(mapState.zoom)
       }));
     }

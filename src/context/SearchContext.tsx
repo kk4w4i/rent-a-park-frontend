@@ -67,7 +67,24 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
             if (!response.ok) throw new Error('Search failed');
             
             const data = await response.json();
-            setListings(data);
+
+            const mappedData = data.map((data: { id: any; provider_id: any; title: any; address: any; longitude: any; latitude: any; type: any; rate: any; description: any; status: any; image: any; created_at: any; updated_at: any; }) => ({
+                listing_id: data.id,
+                provider_id: data.provider_id,
+                title: data.title,
+                address: data.address,
+                longitude: data.longitude,
+                latitude: data.latitude,
+                type: data.type,
+                rate: data.rate,
+                description: data.description,
+                status: data.status,
+                image: data.image,
+                created_at: data.created_at,
+                updated_at: data.updated_at,
+            }));
+            setListings(mappedData);
+
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to fetch listings');
         } finally {

@@ -3,38 +3,39 @@ import { useEffect, useState } from "react";
 import { Listing } from "@/types/Listing";
 import { dummyListings } from "@/dummies/searchResponse";
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { MapPin, Share, Heart, Calendar } from "lucide-react";
+import { MapPin, Share, Heart } from "lucide-react";
+import { AspectRatio } from "@radix-ui/react-aspect-ratio";
+import BookingCard from "@/customComponents/BookingCard";
 
 // For date/time pickers, you may want to use a library like react-datepicker or similar.
 // Here, we'll use simple HTML <input type="datetime-local"> for demonstration.
+
+const USE_DUMMY_DATA = false; // Set to false when using real API
+const API_URL = "http://localhost:8080/lb-service/api/v1";
 
 export default function CustomerListing() {
   const { listing_id } = useParams();
   const [listing, setListing] = useState<Listing | null>(null);
 
-  // Parking time selection state
-  const [start, setStart] = useState<string>("");
-  const [end, setEnd] = useState<string>("");
-
-  // Calculate total price based on selected time
-  const getTotal = () => {
-    if (!start || !end || !listing) return 0;
-    const startDate = new Date(start);
-    const endDate = new Date(end);
-    const diffMs = endDate.getTime() - startDate.getTime();
-    if (diffMs <= 0) return 0;
-    // 15min = 900000ms
-    const sessions = Math.ceil(diffMs / 900000);
-    return sessions * listing.rate;
-  };
-
   useEffect(() => {
+    let found = null;
     if (listing_id) {
-      const found = dummyListings.find((item) => String(item.listing_id) === String(listing_id));
-      setListing(found || null);
+      if (USE_DUMMY_DATA) {
+        found = dummyListings.find((item) => String(item.listing_id) === String(listing_id));
+        setListing(found || null);
+      } else {
+        console.log(`Fetching listing with ID: ${listing_id}`);
+        const fetchListing = async () => {
+          const response = await fetch(`${API_URL}/listings/${listing_id}`);
+          if (response.ok) {
+            const data = await response.json();
+            setListing(data);
+          } else {
+            setListing(null);
+          }
+        };
+        fetchListing();
+      }
     }
   }, [listing_id]);
 
@@ -73,87 +74,31 @@ export default function CustomerListing() {
         {/* Left Column */}
         <div className="lg:col-span-2 space-y-8">
           {/* Parking Image */}
-          <div>
-            <img
-              src="/placeholder.svg?height=400&width=600"
-              alt="Parking spot"
-              width={600}
-              height={400}
-              className="w-full h-64 lg:h-80 object-cover rounded-lg border"
+            <AspectRatio className="rounded-lg" ratio={12 / 6}>
+                <img
+                    src={listing.image}
+                    alt={listing.title}
+                    className="rounded-lg w-full h-full object-cover"
             />
-          </div>
-
-          {/* Host Info */}
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-lg font-semibold mb-1">Parking hosted by Sarah</h2>
-              <p className="text-gray-600">{listing.type} · Max vehicle: Sedan · Secure spot</p>
-            </div>
-            <Avatar className="w-12 h-12">
-              <AvatarImage src="/placeholder.svg" alt="Host" />
-              <AvatarFallback>SH</AvatarFallback>
-            </Avatar>
-          </div>
-
-          <Separator />
+            </AspectRatio>
 
           {/* Description */}
-          <div>
-            <h3 className="font-semibold mb-2">Description</h3>
-            <p className="text-gray-700 leading-relaxed">{listing.description}</p>
+          <div className="flex justify-between items-start">
+            <div>
+                <h3 className="font-semibold mb-2">Description</h3>
+                <p className="text-gray-700 leading-relaxed">{listing.description}</p>
+            </div>
+
+            <div className="flex items-center justify-between">
+                <div>
+                <p className="text-gray-600">Parking type: {listing.type}</p>
+                </div>
+            </div>
           </div>
         </div>
 
         {/* Right Column - Booking Card */}
-        <div className="lg:col-span-1">
-          <Card className="sticky top-6 shadow-lg">
-            <CardHeader>
-              <CardTitle className="flex items-baseline gap-2">
-                <span className="text-2xl font-semibold">${listing.rate}</span>
-                <span className="text-base font-normal text-gray-600">/ 15min</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-3">
-                <label className="block text-xs font-medium text-gray-700 mb-1">Select parking period</label>
-                <div className="flex flex-col gap-2">
-                  <div className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4 text-gray-500" />
-                    <input
-                      type="datetime-local"
-                      className="border rounded px-2 py-1 text-sm w-full"
-                      value={start}
-                      onChange={e => setStart(e.target.value)}
-                      min={new Date().toISOString().slice(0, 16)}
-                    />
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4 text-gray-500" />
-                    <input
-                      type="datetime-local"
-                      className="border rounded px-2 py-1 text-sm w-full"
-                      value={end}
-                      onChange={e => setEnd(e.target.value)}
-                      min={start || new Date().toISOString().slice(0, 16)}
-                    />
-                  </div>
-                </div>
-              </div>
-              <Button className="w-full" size="lg" disabled={!start || !end || getTotal() === 0}>
-                Reserve
-              </Button>
-              <p className="text-center text-xs text-gray-500">You won't be charged yet</p>
-              <Separator />
-              <div className="flex justify-between text-base font-semibold">
-                <span>Total</span>
-                <span>${getTotal()}</span>
-              </div>
-              <div className="text-xs text-gray-500 text-right">
-                (${listing.rate} per 15min)
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+        <BookingCard listing={listing} />
       </div>
     </div>
   );

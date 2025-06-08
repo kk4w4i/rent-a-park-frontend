@@ -5,6 +5,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import CustomerListing from "./pages/CustomerListing"
 import { useAuthContext } from "./context/AuthContext";
+import CreateListing from "./pages/CreateListing";
 // import NotFound from "./pages/NotFound"
 import URLS from "./urls"
 
@@ -12,7 +13,7 @@ export default function Router() {
   const { user } = useAuthContext();
 
   console.log("Router user:", user);
-  
+
   return (
     <BrowserRouter>
       <Routes>
@@ -21,6 +22,7 @@ export default function Router() {
           <Route path={URLS.SIGNIN} element={<SignIn />} />
           <Route path={URLS.SIGNUP} element={<SignUp />} />
           <Route path={URLS.LISTING} element={<CustomerListing />} />
+          <Route path={URLS.CREATE_LISTING} element={user ? <CreateListing /> : <></>} />
           {/* <Route path="*" element={<NotFound />} /> */}
       </Routes>
     </BrowserRouter>

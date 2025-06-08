@@ -1,3 +1,4 @@
+import { Input } from '@/components/ui/input';
 import React, { useState } from 'react'
 
 type Suggestion = {
@@ -7,10 +8,11 @@ type Suggestion = {
 }
 
 type SearchBarProps = {
-  onSelect: (lat: number, lon: number) => void;
+  onSelect: (lat: number, lon: number, address: string) => void;
+  placeholder?: string;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ onSelect }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ onSelect, placeholder }) => {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -35,17 +37,17 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSelect }) => {
     setQuery(s.display_name);
     setShowDropdown(false);
     setSuggestions([]);
-    onSelect(Number(s.lat), Number(s.lon));
+    onSelect(Number(s.lat), Number(s.lon), s.display_name);
   };
 
   return (
     <div className="relative flex justify-center items-center">
-      <input
+      <Input
         type="text"
         value={query}
         onChange={handleChange}
-        placeholder="Let's find you a place to park..."
-        className="w-150 px-4 py-2 bg-white rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+        placeholder={placeholder || "Let's find you a place to park..."}
+        className="w-150 px-4 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400"
       />
       {showDropdown && suggestions.length > 0 && (
         <div className="absolute right-0 top-10 mt-3 bg-white rounded-lg shadow-lg z-10 text-black ">

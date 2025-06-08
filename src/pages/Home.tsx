@@ -2,7 +2,7 @@ import { useState } from 'react';
 import ModernMap from '../customComponents/Map';
 import SearchBar from '../customComponents/SearchBar';
 import { Button } from '@/components/ui/button';
-import { SearchProvider, useSearchContext } from '@/context/SearchContext';
+import { useSearchContext } from '@/context/SearchContext';
 import Filter from '@/customComponents/Filter';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '@/context/AuthContext';
@@ -16,9 +16,9 @@ export default function Home() {
   const navigate = useNavigate();
   const { user } = useAuthContext();
 
-  return (
-    <SearchProvider>
+  console.log(listings, "Listings in Home component");
 
+  return (
       <div>
         <div className='fixed flex justify-center items-center w-full p-10 z-10'>
           <div className='w-full flex justify-center items-center gap-5 drop-shadow-xl'>
@@ -48,8 +48,6 @@ export default function Home() {
             onViewportChange={setMapState}
           />
         </div>
-      </div>
-    </SearchProvider>
-    
+      </div>    
   );
 }

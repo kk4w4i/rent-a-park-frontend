@@ -18,36 +18,34 @@ import {
 
 export function Menu({
   menus,
+  selected,
+  onSelect,
 }: {
-  menus: {
-    name: string
-    items: string[]
-  }[]
+  menus: { name: string; items: string[] }[];
+  selected: string | null;
+  onSelect: (item: string) => void;
 }) {
   return (
     <>
-      {menus.map((menus, index) => (
-        <React.Fragment key={menus.name}>
-          <SidebarGroup key={menus.name} className="py-0">
-            <Collapsible
-              defaultOpen={index === 0}
-              className="group/collapsible"
-            >
-              <SidebarGroupLabel
-                asChild
-                className="group/label text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground w-full text-sm"
-              >
+      {menus.map((menu, index) => (
+        <React.Fragment key={menu.name}>
+          <SidebarGroup className="py-0">
+            <Collapsible defaultOpen={index === 0} className="group/collapsible">
+              <SidebarGroupLabel asChild className="group/label text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground w-full text-sm">
                 <CollapsibleTrigger>
-                  {menus.name}{" "}
+                  {menu.name}
                   <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
                 </CollapsibleTrigger>
               </SidebarGroupLabel>
               <CollapsibleContent>
                 <SidebarGroupContent>
                   <SidebarMenu>
-                    {menus.items.map((item) => (
+                    {menu.items.map((item) => (
                       <SidebarMenuItem key={item}>
-                        <SidebarMenuButton>
+                        <SidebarMenuButton
+                          className={selected === item ? "bg-sidebar-accent text-sidebar-accent-foreground" : ""}
+                          onClick={() => onSelect(item)}
+                        >
                           {item}
                         </SidebarMenuButton>
                       </SidebarMenuItem>
@@ -61,5 +59,5 @@ export function Menu({
         </React.Fragment>
       ))}
     </>
-  )
+  );
 }
