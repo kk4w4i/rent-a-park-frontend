@@ -2,6 +2,9 @@ import { createContext, useContext, useState, ReactNode, useEffect, useRef } fro
 import { dummyListings } from '../dummies/searchResponse'
 import { Listing } from '../types/Listing'
 import { SearchFilters } from '../types/SearchFilters'
+import { BASE_API_URL } from '@/urls'
+
+const API_URL = `${BASE_API_URL}`;
 
 const USE_DUMMY_DATA = false;
 
@@ -62,8 +65,8 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
             if (filters.timeEnd) params.append('timeEnd', filters.timeEnd);
             if (filters.type) params.append('type', filters.type.join(','));
 
-            console.log(`http://localhost:7070/search?${params.toString()}`)
-            const response = await fetch(`http://localhost:7070/search?${params.toString()}`);
+            console.log(`${API_URL}/search?${params.toString()}`)
+            const response = await fetch(`${API_URL}/search?${params.toString()}`);
             if (!response.ok) throw new Error('Search failed');
             
             const data = await response.json();

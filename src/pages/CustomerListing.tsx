@@ -6,12 +6,13 @@ import { Button } from "@/components/ui/button";
 import { MapPin, Share, Heart } from "lucide-react";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import BookingCard from "@/customComponents/BookingCard";
+import { BASE_API_URL } from "@/urls";
 
 // For date/time pickers, you may want to use a library like react-datepicker or similar.
 // Here, we'll use simple HTML <input type="datetime-local"> for demonstration.
 
 const USE_DUMMY_DATA = false; // Set to false when using real API
-const API_URL = "http://localhost:8080/lb-service/api/v1";
+const API_URL = `${BASE_API_URL}/lb-service/api/v1`;
 
 export default function CustomerListing() {
   const { listing_id } = useParams();

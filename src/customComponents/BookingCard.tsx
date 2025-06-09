@@ -4,8 +4,9 @@ import { Calendar } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { BASE_API_URL } from "@/urls";
 
-const API_URL = "http://localhost:8080/lb-service/api/v1";
+const API_URL = `${BASE_API_URL}/lb-service/api/v1`;
 
 export default function BookingCard({ listing }: { listing: any }) {
     const [start, setStart] = useState<string>("");

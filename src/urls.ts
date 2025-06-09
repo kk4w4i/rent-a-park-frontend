@@ -6,5 +6,7 @@ const PathConstants = {
     SIGNUP: '/sign-up',
     CREATE_LISTING: '/create-listing',
   };
+
+export const BASE_API_URL = "http://alb-587677311.us-east-1.elb.amazonaws.com";
   
-  export default PathConstants;
+export default PathConstants;

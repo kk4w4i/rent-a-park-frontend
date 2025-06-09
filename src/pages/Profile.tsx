@@ -13,6 +13,8 @@ import { Plus } from "lucide-react"
 import { AspectRatio } from "@radix-ui/react-aspect-ratio"
 import { useNavigate } from "react-router-dom"
 import { Listing } from "@/types/Listing"
+import { BASE_API_URL } from "@/urls"
+
 export default function Profile() {
   return (
     <ProfileProvider>
@@ -23,7 +25,7 @@ export default function Profile() {
   )
 }
 
-const BASE_API_URL = 'http://localhost:8080/lb-service/api/v1';
+const API_URL = `${BASE_API_URL}/lb-service/api/v1`;
 
 function ProviderRoleSwitch() {
   const { profileUser, switchRole } = useProfileContext()
@@ -153,7 +155,7 @@ function BookingSelect ({ booking }: { booking: any }) {
 
   useEffect(() => {
     const fetchListing = async () => {
-      const response = await fetch(`${BASE_API_URL}/listings/${booking.listing_id}`);
+      const response = await fetch(`${API_URL}/listings/${booking.listing_id}`);
       if (response.ok) {
           const data = await response.json();
           setListing(data);

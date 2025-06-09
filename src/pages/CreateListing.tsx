@@ -7,9 +7,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import SearchBar from "@/customComponents/SearchBar";
 import ImageUpload from "@/customComponents/ImageUploader";
 import { Label } from "@/components/ui/label";
+import { BASE_API_URL } from "@/urls";
 
 const PARKING_TYPES = ["bike", "small", "normal", "disabled"];
-const LISTING_API_URL = 'http://localhost:8080/lb-service/api/v1/'
+const LISTING_API_URL = `${BASE_API_URL}/lb-service/api/v1/`
 
 type FormFields = {
     title: string;

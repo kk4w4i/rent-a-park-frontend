@@ -1,10 +1,10 @@
-// src/contexts/AuthContext.tsx
 import { createContext, useState, useContext, useEffect } from 'react';
 import { User } from '../types/User';
 import { dummyUser } from '../dummies/userResponse';
+import { BASE_API_URL } from '@/urls';
 
 const USE_DUMMY_DATA = false;
-const AUTH_API_URL = 'http://localhost:6060/auth';
+const AUTH_API_URL = `${BASE_API_URL}/auth`;
 
 type AuthContextType = {
   user: User | null;

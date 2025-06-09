@@ -29,8 +29,6 @@ export function SignInForm({
     setError(null);
     try {
       await login(username, password);
-
-      window.location.href = "/";
     } catch {
       setError("Invalid username or password");
     }

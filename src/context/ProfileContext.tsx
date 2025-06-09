@@ -4,9 +4,10 @@ import { dummyUser } from '../dummies/userResponse';
 import { ProviderListing } from '@/types/ProviderListing';
 import { Booking } from '@/types/Booking';
 import { useAuthContext } from './AuthContext';
+import { BASE_API_URL } from '@/urls';
 
 const USE_DUMMY_DATA = false;
-const BASE_API_URL = 'http://localhost:8080/lb-service/api/v1';
+const API_URL = `${BASE_API_URL}/lb-service/api/v1`;
 
 type ProfileContextType = {
   profileUser: ProfileUser | null;
@@ -50,7 +51,7 @@ export const ProfileProvider = ({ children }: { children: React.ReactNode }) => 
 
   const getListings = async () => {
     if (profileUser.role === 'provider') {
-        const response = await fetch(`${BASE_API_URL}/listings/provider`, {
+        const response = await fetch(`${API_URL}/listings/provider`, {
           method: 'GET',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
@@ -64,7 +65,7 @@ export const ProfileProvider = ({ children }: { children: React.ReactNode }) => 
   }
 
   const getBookings = async () => {
-    const response = await fetch(`${BASE_API_URL}/bookings/user`, {
+    const response = await fetch(`${API_URL}/bookings/user`, {
       method: 'GET',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },

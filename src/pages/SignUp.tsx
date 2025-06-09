@@ -31,8 +31,6 @@ export function SignUpForm({ className, ...props }: React.ComponentProps<"div">)
     setError(null);
     try {
       await register(email, password, phone, firstname, lastname, isProvider.toString(), username);
-
-      window.location.href = "/";
     } catch (err) {
       setError("Registration failed. Please check your details.");
     }
